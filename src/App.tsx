@@ -1,14 +1,24 @@
-import React, {useState} from 'react';
+import {Fragment} from 'react';
 import './App.css';
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Route, Router, Switch} from "react-router-dom";
+import {MainPage} from "./Components/main-page/MainPage";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
-  return (
-      <BrowserRouter>
+    const ROUTES = [
+        {path: '/', component: <MainPage/>},
+    ];
 
-      </BrowserRouter>
-  );
+    return (
+        <Fragment>
+            <BrowserRouter>
+                <Switch>
+                    {ROUTES.map(route => <Route path={route.path}>{route.component}</Route>)}
+                </Switch>
+            </BrowserRouter>
+        </Fragment>
+    );
 }
 
 export default App;

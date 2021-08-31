@@ -1,0 +1,35 @@
+.MainPageTitle {
+    font-size: 50px;
+    font-family: "Book Antiqua", serif;
+    text-align: center;
+    background: grey;
+    padding: 50px 0px;
+}
+
+.MainPageLogo {
+    height: 40vh;
+    padding-left: 20px;
+    padding-top: 50px;
+}
+
+.MainPageSubtitle {
+    font-family: "Book Antiqua", serif;
+    font-size: 30px;
+    padding-left: 30px;
+}
+
+.MainPageContent {
+    display: flex;
+}
+
+.MainPageLoginForm {
+
+}
+
+.MainPageEmailForm {
+    display: flex;
+}
+
+.MainPagePasswordForm {
+    display: flex;
+}
