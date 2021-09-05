@@ -8,14 +8,20 @@
 
 .MainPageLogo {
     height: 40vh;
-    padding-left: 20px;
+    padding-left: 60px;
     padding-top: 50px;
 }
 
 .MainPageSubtitle {
     font-family: "Book Antiqua", serif;
     font-size: 30px;
-    padding-left: 30px;
+    padding-left: 80px;
+}
+
+.signInLabel {
+    font-size: 50px;
+    margin-left: 150px;
+    padding-bottom: 50px;
 }
 
 .MainPageContent {
@@ -23,13 +29,58 @@
 }
 
 .MainPageLoginForm {
-
+    margin-top: 200px;
+    margin-left: 300px;
 }
 
-.MainPageEmailForm {
-    display: flex;
+.MainPageEmailInputField {
+    width: 300px;
+    height: 40px;
+    font-size: large;
+    margin-left: 20px;
 }
 
-.MainPagePasswordForm {
+.MainPageEmailLabel {
+    font-size: 25px;
+    margin-right: 20px;
+}
+
+.MainPagePasswordInputField {
+    width: 300px;
+    height: 40px;
+    margin-top: 40px;
+    font-size: large;
+}
+
+.MainPagePasswordLabel {
+    font-size: 25px;
+    margin-top: 40px;
+    margin-right: 40px;
+    margin-left: 60px;
+}
+
+.submitButton{
+    margin-top: 80px;
+    margin-left: 280px;
+    width: 120px;
+    height: 60px;
+    opacity: 0.8;
+}
+
+.Register{
     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 100px;
+}
+
+.RegisterLabel {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.RegisterButton {
+    opacity: 0.5;
+    margin-left: 20px;
 }

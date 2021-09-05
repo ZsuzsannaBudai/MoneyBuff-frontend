@@ -3,8 +3,16 @@ import {Fragment} from 'react';
 import image from './logo.svg';
 import {useFormik} from 'formik';
 import {Button} from "react-bootstrap";
+import '../../App';
+import {useHistory} from "react-router-dom";
 
 export const MainPage = () => {
+
+    const history = useHistory();
+
+    const handleRoute = () => {
+        history.push("/register");
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -30,10 +38,12 @@ export const MainPage = () => {
                     </div>
                 </div>
                 <div className="MainPageLoginForm">
+                    <label className="signInLabel">Sign in here:</label>
                     <form onSubmit={formik.handleSubmit}>
-                        <div className="MainPageEmailForm">
-                            <label>E-mail address</label>
+                        <div>
+                            <label className="MainPageEmailLabel">E-mail address</label>
                             <input
+                                className="MainPageEmailInputField"
                                 id="email"
                                 name="email"
                                 type="email"
@@ -41,9 +51,10 @@ export const MainPage = () => {
                                 value={formik.values.email}
                             />
                         </div>
-                        <div className="MainPagePasswordForm">
-                            <label>Password</label>
+                        <div>
+                            <label className="MainPagePasswordLabel">Password</label>
                             <input
+                                className="MainPagePasswordInputField"
                                 id="password"
                                 name="password"
                                 type="password"
@@ -51,7 +62,11 @@ export const MainPage = () => {
                                 value={formik.values.password}
                             />
                         </div>
-                        <Button type="submit" variant="light">Submit</Button>
+                        <div className="Register">
+                            <label className="RegisterLabel">Haven't registered yet?</label>
+                            <Button className="RegisterButton" variant="info" onClick={handleRoute}>Click here.</Button>
+                        </div>
+                        <Button className="submitButton" type="submit" variant="secondary">Submit</Button>
                     </form>
                 </div>
             </main>
