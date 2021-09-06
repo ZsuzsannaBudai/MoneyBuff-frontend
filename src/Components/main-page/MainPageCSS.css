@@ -2,8 +2,10 @@
     font-size: 50px;
     font-family: "Book Antiqua", serif;
     text-align: center;
-    background: grey;
-    padding: 50px 0px;
+    padding: 100px 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 0 15px 15px #e7d1ed;
 }
 
 .MainPageLogo {

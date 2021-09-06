@@ -5,6 +5,7 @@ import {useFormik} from 'formik';
 import {Button} from "react-bootstrap";
 import '../../App';
 import {useHistory} from "react-router-dom";
+import decor from './decor2.png'
 
 export const MainPage = () => {
 
@@ -26,7 +27,7 @@ export const MainPage = () => {
 
     return (
         <Fragment>
-            <div className="MainPageTitle">MoneyBuffer</div>
+            <div className="MainPageTitle" style={{backgroundImage: `url(${decor})`}}>MoneyBuffer</div>
             <main className="MainPageContent">
                 <div>
                     <img src={image} className="MainPageLogo"></img>
