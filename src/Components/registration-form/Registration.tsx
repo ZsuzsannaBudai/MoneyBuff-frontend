@@ -17,25 +17,15 @@ export const Registration = () => {
 
     return (
         <Fragment>
-            <h1>Create your account:</h1>
             <div className="registrationForm">
+                <h1 className="regTitle">Create your account:</h1>
                 <form onSubmit={formik.handleSubmit}>
                     <div>
-                        <label>First Name</label>
+                        <label>Name</label>
                         <input
-                            id="first name"
-                            name="first name"
-                            type="first name"
-                            onChange={formik.handleChange}
-                            value={formik.values.email}
-                        />
-                    </div>
-                    <div>
-                        <label>Last Name</label>
-                        <input
-                            id="last name"
-                            name="last name"
-                            type="last name"
+                            id="name"
+                            name="name"
+                            type="name"
                             onChange={formik.handleChange}
                             value={formik.values.email}
                         />
