@@ -25,18 +25,17 @@
     height: 40vh;
     padding-left: 60px;
     padding-top: 50px;
-    margin-left: 400px;
+    margin-left: 410px;
 }
 
 .MainPageSubtitle {
     font-family: "Book Antiqua", serif;
     font-size: 30px;
-    margin-left: 450px;
+    margin-left: 480px;
     background-color: rgba(192, 192, 192, 0.4);
     box-shadow: -10px -8px 21px 1px rgba(0,0,0,0.16);
     padding: 20px;
     border-radius: 25px;
-
 }
 
 .signin {

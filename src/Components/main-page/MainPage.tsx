@@ -24,8 +24,11 @@ export const MainPage = () => {
             email: '',
             password: '',
         },
-        onSubmit: values => {
+        onSubmit: async values => {
+            const response = await fetch('http://localhost:3000/UserLogin');
+            const data = await response.json();
             console.log(values);
+            return data;
         },
     });
 
@@ -35,23 +38,23 @@ export const MainPage = () => {
                 className="MoneyBuffTitle">MoneyBuffer</h1></div>
             <main className="MainPageContent">
                 <div>
-                    <img src={image} className="MainPageLogo"></img>
-                    <div className="MainPageSubtitle">This is the MoneyBuffer website. <br></br> Made for dealing with
-                        every days <br></br> money issues. You can use it to <br></br> control your own or
-                        your <br></br> household's wealth
+                    <img src={image} className="MainPageLogo"/>
+                    <div className="MainPageSubtitle">This is the MoneyBuffer website. <br/> Made for dealing with
+                        every days <br/> money issues. You can use it to <br/> control your own or
+                        your <br/> household's wealth
                         management.
                     </div>
                 </div>
-                <div className="verticalLine"></div>
-                <div className="verticalLine2"></div>
+                <div className="verticalLine"/>
+                <div className="verticalLine2"/>
                 <div className="MainPageLoginForm">
                     <div className="signinLabelAndPicture">
-                        <img src={singin} className="signin"></img>
+                        <img src={singin} className="signin"/>
                         <label className="signInLabel">Login</label>
                     </div>
                     <form onSubmit={formik.handleSubmit}>
                         <div>
-                            <img src={login} className="MainPageEmailLabel"></img>
+                            <img src={login} className="MainPageEmailLabel"/>
                             <input
                                 className="MainPageEmailInputField"
                                 id="email"
@@ -62,7 +65,7 @@ export const MainPage = () => {
                             />
                         </div>
                         <div>
-                            <img src={password} className="MainPagePasswordLabel"></img>
+                            <img src={password} className="MainPagePasswordLabel"/>
                             <input
                                 className="MainPagePasswordInputField"
                                 id="password"
