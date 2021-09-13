@@ -1,0 +1,57 @@
+.registrationForm {
+  width: 500px;
+  height: 500px;
+  background-color: rgba(192, 192, 192, 0.4);
+  box-shadow: -10px -8px 21px 1px rgba(0,0,0,0.16);
+  padding: 30px;
+  margin-left: 775px;
+  margin-top: 250px;
+}
+
+.subTitle {
+  text-align: center;
+}
+
+.userIcon {
+  border-radius: 50%;
+  width: 50px;
+  margin-left: 50px;
+}
+
+.userLabel {
+  width: 250px;
+  height: 40px;
+  margin-left: 30px;
+  margin-top: 40px;
+}
+
+.ErrorMessage {
+  position: absolute;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  margin-top: 1.5rem;
+  font-weight: bold;
+}
+
+.ErrorMessage > .toast {
+  width: 30%;
+}
+
+.ErrorMessage > .toast > .toast-header > .btn-close {
+  background-color: white !important;
+}
+
+.ErrorMessage > .toast > .toast-header {
+  background-color: #ff5555;
+  color: white;
+  justify-content: space-between;
+  display: flex;
+  font-size: 1.25rem;
+}
+
+.registerButton {
+  margin-top: 50px;
+  margin-left: 170px;
+  padding: 15px;
+}
