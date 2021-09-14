@@ -1,0 +1,47 @@
+.mainPageBackground {
+    height: 100vh;
+    width: 100vw;
+}
+
+.littleLogo {
+    border-radius: 50%;
+    width: 70px;
+    margin-right: 20px;
+}
+
+.mainPageContainer {
+    padding: 0px;
+    margin-left: 250px;
+}
+
+.d-flex {
+    margin-right: -350px;
+}
+
+.mainPageAll {
+    justify-content: space-around;
+    align-items: center;
+}
+
+.incomeTable {
+    width: 10%;
+    padding-top: 86px;
+}
+
+table {
+    border: 2px solid black;
+}
+
+tr {
+    border: 2px solid black;
+    text-align: center;
+}
+th {
+    border: 2px solid black;
+}
+
+.expenseTable {
+    width: 20%;
+    padding-top: 86px;
+    padding-left: 50%;
+}

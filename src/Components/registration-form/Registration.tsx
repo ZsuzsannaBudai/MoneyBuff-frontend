@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button, Toast} from "react-bootstrap";
 import {useFormik} from "formik";
-import "./RegistrationSCSS.scss";
+import "./RegistrationSCSS.css";
 import {Fragment, useState} from "react";
 import email from "./email.png";
 import password from "./passwprd.jpg";

@@ -37,7 +37,7 @@ export const WelcomePage = () => {
         onSubmit: async (values) => {
             APIService.Login(values).then(data => {
                 console.log(data);
-                if (data == Status.SUCCESS) {
+                if (data === Status.SUCCESS) {
                     handleRoute2();
                 } else {
                     setError(true);
