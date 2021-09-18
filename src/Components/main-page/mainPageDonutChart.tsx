@@ -24,9 +24,8 @@ class ChartsPage extends React.Component {
 
     render() {
         return (
-            <MDBContainer>
-                <h3 className="mt-5">Doughnut chart</h3>
-                <Doughnut data={this.state.dataDoughnut} options={{ responsive: true }} />
+            <MDBContainer className="donutChart">
+                <Doughnut className="donut" data={this.state.dataDoughnut} options={{ responsive: true }} />
             </MDBContainer>
         );
     }

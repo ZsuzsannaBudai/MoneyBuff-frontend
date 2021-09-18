@@ -1,5 +1,5 @@
 import {useHistory} from "react-router-dom";
-import {Fragment} from "react";
+import React, {Fragment} from "react";
 import "./MainPageSCSS.css";
 import background from "./mainPageBackground.jpg";
 import {Button, Navbar, Table} from "react-bootstrap";
@@ -8,17 +8,35 @@ import {Nav} from "react-bootstrap";
 import {Form} from "react-bootstrap";
 import {FormControl} from "react-bootstrap";
 import littleLogo from "./signin_icon.png";
-
-import {useFormik} from "formik";
-import {APIService} from "../../APIService";
-import {Status} from "../../Enums";
-import ChartsPage from "./donutChartMainPage";
-import decor from "../welcome-page/decor2.png";
+import ChartsPage from "./mainPageDonutChart";
 
 export const MainPage = () => {
 
-    //let val = ChartsPage;
     const history = useHistory();
+
+    let income = {
+        listItems: [
+            {
+                id: 1,
+                context: 123456
+            },
+            {
+                id: 1,
+                context: 123456
+            },
+            {
+                id: 1,
+                context: 123456
+            },
+            {
+                id: 1,
+                context: 123456
+            }, {
+                id: 1,
+                context: 123456
+            },
+        ]
+    };
 
     /* const handleRoute = () => {
          history.push("/register");
@@ -52,6 +70,7 @@ export const MainPage = () => {
                             <Nav.Link href="#home">Home</Nav.Link>
                             <Nav.Link href="#link">Statistics</Nav.Link>
                             <Nav.Link href="#account">Your Account</Nav.Link>
+                            <div className="separatorLine"/>
                             <Nav.Link href="#logout">Log Out</Nav.Link>
                         </Nav>
                         <Form className="d-flex">
@@ -65,41 +84,30 @@ export const MainPage = () => {
                         </Form>
                     </Container>
                 </Navbar>
-                <div className="incomeTable">
-                    <Table>
-                        <thead>
-                        <tr>
-                            <th>Income:</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>Total income:</tr>
-                        </tbody>
-                    </Table>
+                <div className="tables">
+                    <div>
+                        <div className="incomeTitle"><h1>Incomes</h1></div>
+                        {income.listItems.map((listItem: any) => (
+                            <div className="asdfg">
+                                <li key={listItem.id}>{listItem.context}</li>
+                            </div>
+                        ))}
+                        <div className="totalIncome"><h1>Total income:</h1></div>
+                    </div>
+                    <div className="expensesTable">
+                        <div className="expensesTitle"><h1>Expenses</h1></div>
+                        {income.listItems.map((listItem: any) => (
+                            <div>
+                                <li key={listItem.id}>{listItem.context}</li>
+                            </div>
+                        ))}
+                        <div className="totalIncome"><h1>Total expenses:</h1></div>
+                    </div>
                 </div>
-                <div className="expenseTable">
-                    <Table>
-                        <thead>
-                        <tr>
-                            <th>Income:</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>""</tr>
-                        <tr>Total income:</tr>
-                        </tbody>
-                    </Table>
+                <div className="med">
+                    <h1 className="balance">Your </h1>
+                    <h1 className="balance2">balance:</h1>
+                    <ChartsPage/>
                 </div>
             </div>
         </Fragment>

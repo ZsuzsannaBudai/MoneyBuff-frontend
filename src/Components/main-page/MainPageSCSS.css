@@ -18,30 +18,54 @@
     margin-right: -350px;
 }
 
+.incomeTitle {
+    padding-top: 100px;
+}
+
 .mainPageAll {
     justify-content: space-around;
     align-items: center;
 }
 
-.incomeTable {
-    width: 10%;
-    padding-top: 86px;
+.tables {
+    display: flex;
 }
 
-table {
-    border: 2px solid black;
+.separatorLine {
+    border-right: 1px solid black;
 }
 
-tr {
-    border: 2px solid black;
-    text-align: center;
-}
-th {
-    border: 2px solid black;
+.expensesTitle {
+    padding-top: 100px;
 }
 
-.expenseTable {
-    width: 20%;
-    padding-top: 86px;
-    padding-left: 50%;
+.expensesTable {
+    margin-left: 1500px;
+}
+
+.donutChart {
+    padding-right: 500px;
+    margin-left: -300px;
+}
+
+.med {
+    display: flex;
+}
+
+.balance {
+    margin-left: 45%;
+    margin-top: -150px;
+    height: 50px;
+
+}
+
+.balance2 {
+    margin-top: -150px;
+    height: 50px;
+    margin-left: 10px;
+}
+
+.donut {
+    height: 550px !important;
+    width: 550px !important;
 }
