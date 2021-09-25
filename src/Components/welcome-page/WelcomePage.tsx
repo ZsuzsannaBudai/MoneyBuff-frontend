@@ -80,6 +80,7 @@ export const WelcomePage = () => {
                                 id="email"
                                 name="email"
                                 type="email"
+                                placeholder="E-mail address"
                                 onChange={formik.handleChange}
                                 value={formik.values.email}
                             />
@@ -91,6 +92,7 @@ export const WelcomePage = () => {
                                 id="password"
                                 name="password"
                                 type="password"
+                                placeholder="Password"
                                 onChange={formik.handleChange}
                                 value={formik.values.password}
                             />

@@ -3,66 +3,95 @@
     width: 100vw;
 }
 
+.mainPageContent {
+    display: flex;
+    justify-content: space-around;
+}
+
+/*navbar css*/
 .littleLogo {
     border-radius: 50%;
-    width: 70px;
-    margin-right: 20px;
-}
-
-.mainPageContainer {
-    padding: 0px;
-    margin-left: 250px;
-}
-
-.d-flex {
-    margin-right: -350px;
-}
-
-.incomeTitle {
-    padding-top: 100px;
-}
-
-.mainPageAll {
-    justify-content: space-around;
-    align-items: center;
-}
-
-.tables {
-    display: flex;
+    width: 3.5vw;
+    margin-right: 2%;
 }
 
 .separatorLine {
     border-right: 1px solid black;
+    height: 2.5vh;
+    margin-top: 2%;
+    opacity: 0.5;
 }
 
-.expensesTitle {
-    padding-top: 100px;
+.d-flex {
+    margin-right: -25%;
+    margin-top: 9px;
 }
 
-.expensesTable {
-    margin-left: 1500px;
+.button {
+    height: 40px;
+    margin-left: 15px;
+    margin-top: 9px;
 }
 
-.donutChart {
-    padding-right: 500px;
-    margin-left: -300px;
+.mb-3 {
+    width: 300px;
 }
 
-.med {
+.label {
+    height: 45px !important;
+    margin-top: 7px;
+}
+
+/*tables css*/
+.incomeTable {
     display: flex;
+    flex-direction: column;
+    margin-top: 130px;
 }
 
-.balance {
-    margin-left: 45%;
-    margin-top: -150px;
-    height: 50px;
-
+.incomeTitle {
+    margin-left: 70px;
 }
 
-.balance2 {
-    margin-top: -150px;
+.incomeInput {
+    display: flex;
+    width: 240px;
+    margin: 10px;
+    margin-bottom: 20px;
+}
+
+.listItems {
     height: 50px;
-    margin-left: 10px;
+    margin: 5px;
+    width: 250px;
+}
+
+.totalIncome {
+    margin-top: 20px;
+    margin-left: 45px;
+}
+
+.incomeContainer {
+    border: 1px solid black;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+/*donut chart*/
+.mainPageBalanceTitleAndChart {
+    padding-top: 200px;
+    padding-left: 29px;
+}
+
+.mainPageBalanceTitle {
+    padding-bottom: 80px;
+    padding-left: 145px;
+}
+
+.moneyTitle {
+    margin-left: 180px;
+    position: absolute;
+    margin-top: 210px;
 }
 
 .donut {
