@@ -80,7 +80,6 @@
 /*donut chart*/
 .mainPageBalanceTitleAndChart {
     padding-top: 200px;
-    padding-left: 29px;
 }
 
 .mainPageBalanceTitle {
@@ -88,13 +87,20 @@
     padding-left: 145px;
 }
 
-.moneyTitle {
-    margin-left: 180px;
-    position: absolute;
-    margin-top: 210px;
-}
-
 .donut {
     height: 550px !important;
     width: 550px !important;
+}
+
+.deleteButton {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    background-image: url("./closedtransbin.png");
+    width: 30px;
+    background-position: 50% 50%;
+}
+
+.deleteButton:hover {
+    background-image: url("./openedtransbin.PNG");
 }

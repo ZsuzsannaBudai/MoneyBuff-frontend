@@ -36,14 +36,13 @@ class ChartsPage extends React.Component {
                         top: 24
                     }
                 }
-            },
-
+            }
         }
     };
 
     render() {
         return (
-            <MDBContainer>
+            <MDBContainer id="doughnot">
                 <Doughnut className="donut" data={this.state} options={this.options} />
             </MDBContainer>
         );
