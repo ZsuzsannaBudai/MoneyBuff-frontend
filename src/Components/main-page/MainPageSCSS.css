@@ -81,26 +81,55 @@
 .mainPageBalanceTitleAndChart {
     padding-top: 200px;
 }
+.mainPageBalanceTitleAndChart svg > rect {
+    fill: rgba(255, 255, 255, 0);
+}
 
 .mainPageBalanceTitle {
     padding-bottom: 80px;
-    padding-left: 145px;
+    padding-left: 100px;
 }
 
-.donut {
-    height: 550px !important;
-    width: 550px !important;
+.doughnot {
+    background-image: none;
+    padding-left: 30px;
+}
+
+/*delete button*/
+.button2 {
+    width: 20px;
+    margin: 0;
+    height: 0px;
 }
 
 .deleteButton {
     background-color: transparent;
     background-repeat: no-repeat;
     border: none;
-    background-image: url("./closedtransbin.png");
     width: 30px;
-    background-position: 50% 50%;
 }
 
-.deleteButton:hover {
-    background-image: url("./openedtransbin.PNG");
+.button2 .closed {
+    width: 30px;
+    position: absolute;
+    top: 15%;
+    left: 84.5%;
+    z-index: 99;
+}
+
+.button2:hover .closed {
+    display: none;
+}
+
+.button2 .opened {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 85%;
+    z-index: 99;
+    width: 30px;
+}
+
+.button2:hover .opened {
+    display: inline;
 }

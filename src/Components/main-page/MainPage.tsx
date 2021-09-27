@@ -14,11 +14,11 @@ import {
     Navbar
 } from "react-bootstrap";
 import littleLogo from "./signin_icon.png";
-import ChartsPage from "./mainPageDonutChart";
 import balanceTitle from "./balance.png";
 import {useFormik} from "formik";
-import closedTrashbin from "./closedtransbin.png";
-import openedTrashBin from "./openedtranshbin.jpg";
+import closedTrashbin2 from "./closedtransbin.png";
+import openedtrashbin from "./openedtransbin2.png";
+import { Chart } from "react-google-charts";
 
 export const MainPage = () => {
 
@@ -36,11 +36,7 @@ export const MainPage = () => {
 
     const [income, setIncome] = useState([] as string[]);
 
-    let totalIncome = 0;
-
-    for (let i = 0; i < income.length; i++) {
-        totalIncome += +income[i];
-    }
+    const getTotalIncome = () => income.map(Number).reduce(((sum: number, current: number) => sum + current), 0);
 
     const formikExpense = useFormik({
         initialValues: {
@@ -54,13 +50,9 @@ export const MainPage = () => {
 
     const [expenses, setExpenses] = useState([] as string[]);
 
-    let totalExpenses = 0;
+    const getTotalExpenses = () => expenses.map(Number).reduce(((sum: number, current: number) => sum + current), 0);
 
-    for (let i = 0; i < expenses.length; i++) {
-        totalExpenses += +expenses[i];
-    }
-
-    let balance = totalIncome - totalExpenses;
+    const balance = getTotalIncome() - getTotalExpenses();
 
     const [hol, setHol] = useState({});
 
@@ -96,6 +88,7 @@ export const MainPage = () => {
         newExpenses.splice(id, 1);
         setExpenses(expense => newExpenses);
     }
+
 
     return (
         <Fragment>
@@ -143,23 +136,41 @@ export const MainPage = () => {
                             </form>
                             {income.map((listItem: any, id) => (
                                 <ListGroup>
-                                    <ListGroupItem className="listItems" action variant="info"
-                                                   key={id}>{listItem}
-                                        <button value="delete" className="deleteButton"
-                                                onClick={() => deleteListItemIncome(id)}/>
+                                    <ListGroupItem className="listItems" action variant="info" key={id}>{listItem} HUF
+                                        <div className="button2">
+                                            <button value="delete1" className="deleteButton"
+                                                    onClick={() => deleteListItemIncome(id)}>
+                                                <img className="closed" src={closedTrashbin2} alt=""/>
+                                                <img src={openedtrashbin} className="opened" alt=""/>
+                                            </button>
+                                        </div>
                                     </ListGroupItem>
                                 </ListGroup>
                             ))}
                             <div className="totalIncome"><h4>Total income:</h4></div>
                             <ListGroup>
-                                <ListGroupItem className="listItems" action variant="info">{totalIncome}</ListGroupItem>
+                                <ListGroupItem className="listItems" action variant="info">{getTotalIncome()} HUF</ListGroupItem>
                             </ListGroup>
                         </div>
                     </div>
                     <div className="mainPageBalanceTitleAndChart">
                         <img src={balanceTitle} className="mainPageBalanceTitle" alt=""/>
                         <h1 style={hol} className="moneyTitle">{balance} HUF</h1>
-                        <ChartsPage/>
+                        <Chart
+                            className="doughnot"
+                            chartType="PieChart"
+                            data={[
+                                ['Income', 'Expenses'],
+                                ['Income', getTotalIncome()],
+                                ['Expense', getTotalExpenses()]
+                            ]}
+                            options={{
+                                pieHole: 0.5,
+                                legend: 'bottom',
+                                chartArea:{left:0,top:0,width:"80%",height:"80%"},height: 550,width: 550,
+                            }}
+                            rootProps={{ 'data-testid': '3' }}
+                        />
                     </div>
                     <div className="incomeTable">
                         <div className="incomeContainer">
@@ -178,14 +189,22 @@ export const MainPage = () => {
                             {expenses.map((listItem: any, id) => (
                                 <ListGroup>
                                     <ListGroupItem className="listItems" action variant="danger"
-                                                   key={id}>{listItem} <Button value="delete"
-                                                                               onClick={() => deleteListItemExpenses(id)}>X</Button></ListGroupItem>
+                                                   key={id}>{listItem} HUF
+                                        <div className="button2">
+                                            <button value="delete" className="deleteButton"
+                                                    onClick={() => deleteListItemExpenses(id)}><img className="closed"
+                                                                                                    src={closedTrashbin2}
+                                                                                                    alt=""/>
+                                                <img src={openedtrashbin} className="opened"/>
+                                            </button>
+                                        </div>
+                                    </ListGroupItem>
                                 </ListGroup>
                             ))}
                             <div className="totalIncome"><h4>Total expenses:</h4></div>
                             <ListGroup>
                                 <ListGroupItem className="listItems" action
-                                               variant="danger">{totalExpenses}</ListGroupItem>
+                                               variant="danger">{getTotalExpenses()} HUF</ListGroupItem>
                             </ListGroup>
                         </div>
                     </div>
