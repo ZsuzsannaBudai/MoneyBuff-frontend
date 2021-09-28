@@ -22,24 +22,25 @@
     opacity: 0.5;
 }
 
-.d-flex {
+.searchForm {
     margin-right: -25%;
     margin-top: 9px;
+    display: flex;
 }
 
-.button {
-    height: 40px;
-    margin-left: 15px;
-    margin-top: 9px;
-}
-
-.mb-3 {
+.searchFloatingLabel {
     width: 300px;
 }
 
-.label {
+.searchLabel {
     height: 45px !important;
     margin-top: 7px;
+}
+
+.searchButton {
+    height: 40px;
+    margin-left: 15px;
+    margin-top: 9px;
 }
 
 /*tables css*/
@@ -47,6 +48,12 @@
     display: flex;
     flex-direction: column;
     margin-top: 130px;
+}
+
+.incomeContainer {
+    border: 1px solid black;
+    border-radius: 25px;
+    padding: 20px;
 }
 
 .incomeTitle {
@@ -71,18 +78,34 @@
     margin-left: 45px;
 }
 
-.incomeContainer {
-    border: 1px solid black;
-    border-radius: 25px;
-    padding: 20px;
+/*middle*/
+.mainPageBalanceTitleAndChart {
+    padding-top: 170px;
 }
 
-/*donut chart*/
-.mainPageBalanceTitleAndChart {
-    padding-top: 200px;
-}
 .mainPageBalanceTitleAndChart svg > rect {
     fill: rgba(255, 255, 255, 0);
+    width: 560px;
+    height: 560px;
+}
+
+.moneyTitleDiv {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(211,161,213,1) 0%, rgba(217,218,222,1) 48%, rgba(143,223,240,1) 100%);
+    box-shadow: -10px -8px 21px 1px rgba(0,0,0,0.16);
+    padding: 10px;
+    border-radius: 25px;
+    margin-top: -10px;
+}
+
+.moneyTitle {
+    text-align: center;
+    font-family: "Comic Sans MS", sans-serif;
+    font-weight: 0;
+    font-size: 3em;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    margin-top: 9px;
 }
 
 .mainPageBalanceTitle {
@@ -93,10 +116,11 @@
 .doughnot {
     background-image: none;
     padding-left: 30px;
+    padding-top: 30px;
 }
 
 /*delete button*/
-.button2 {
+.incomeButton {
     width: 20px;
     margin: 0;
     height: 0px;
@@ -109,7 +133,7 @@
     width: 30px;
 }
 
-.button2 .closed {
+.incomeButton .closed {
     width: 30px;
     position: absolute;
     top: 15%;
@@ -117,11 +141,11 @@
     z-index: 99;
 }
 
-.button2:hover .closed {
+.incomeButton:hover .closed {
     display: none;
 }
 
-.button2 .opened {
+.incomeButton .opened {
     display: none;
     position: absolute;
     top: 0;
@@ -130,6 +154,6 @@
     width: 30px;
 }
 
-.button2:hover .opened {
+.incomeButton:hover .opened {
     display: inline;
 }

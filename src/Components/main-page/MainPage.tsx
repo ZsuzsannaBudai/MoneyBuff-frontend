@@ -1,7 +1,6 @@
-import {useHistory} from "react-router-dom";
-import React, {Fragment, useEffect, useState} from "react";
-import "./MainPageSCSS.css";
-import background from "./mainPageBackground.jpg";
+import React, {Fragment, useState} from "react";
+import {Chart} from "react-google-charts";
+import {useFormik} from "formik";
 import {
     Button,
     Container,
@@ -13,16 +12,15 @@ import {
     Nav,
     Navbar
 } from "react-bootstrap";
+import "./MainPageSCSS.css";
+import background from "./mainPageBackground.jpg";
 import littleLogo from "./signin_icon.png";
 import balanceTitle from "./balance.png";
-import {useFormik} from "formik";
-import closedTrashbin2 from "./closedtransbin.png";
-import openedtrashbin from "./openedtransbin2.png";
-import { Chart } from "react-google-charts";
+import closedTrashBin from "./closedtransbin.png";
+import openedTrashBin from "./openedtransbin.png";
+
 
 export const MainPage = () => {
-
-    const history = useHistory();
 
     const formikIncome = useFormik({
         initialValues: {
@@ -31,12 +29,20 @@ export const MainPage = () => {
         onSubmit: (values) => {
             setIncome([...income, values.context]);
             formikIncome.resetForm();
-        }
+        },
+
     });
 
     const [income, setIncome] = useState([] as string[]);
 
     const getTotalIncome = () => income.map(Number).reduce(((sum: number, current: number) => sum + current), 0);
+
+    function deleteListItemIncome(id: number) {
+        const newIncome = [...income];
+        newIncome.splice(id, 1);
+        setIncome(() => newIncome);
+    }
+
 
     const formikExpense = useFormik({
         initialValues: {
@@ -52,43 +58,14 @@ export const MainPage = () => {
 
     const getTotalExpenses = () => expenses.map(Number).reduce(((sum: number, current: number) => sum + current), 0);
 
-    const balance = getTotalIncome() - getTotalExpenses();
-
-    const [hol, setHol] = useState({});
-
-    useEffect(() => {
-        const elem2 = document.getElementById("doughnot");
-
-        let elem;
-        let merrex = 0;
-        let merrey = 0;
-        if (elem2) {
-            elem = elem2.getBoundingClientRect();
-            merrex = elem.x + elem.width / 2;
-            merrey = elem.y + elem.height / 2;
-            console.log(elem);
-        }
-
-        setHol({
-            position: "absolute",
-            top: merrey,
-            left: merrex - ((balance.toString().length + 4) * (24 / balance.toString().length + 30) / 4),
-            fontSize: 24 / balance.toString().length + 28,
-        });
-    }, [balance]);
-
-    function deleteListItemIncome(id: number) {
-        const newIncome = [...income];
-        newIncome.splice(id, 1);
-        setIncome(income => newIncome);
-    }
-
     function deleteListItemExpenses(id: number) {
         const newExpenses = [...expenses];
         newExpenses.splice(id, 1);
-        setExpenses(expense => newExpenses);
+        setExpenses(() => newExpenses);
     }
 
+
+    const balance = getTotalIncome() - getTotalExpenses();
 
     return (
         <Fragment>
@@ -106,15 +83,15 @@ export const MainPage = () => {
                                 <div className="separatorLine"/>
                                 <Nav.Link href="#logout">Log Out</Nav.Link>
                             </Nav>
-                            <Form className="d-flex">
-                                <FloatingLabel controlId="floatingInput" label="Search" className="mb-3">
+                            <Form className="searchForm">
+                                <FloatingLabel controlId="floatingInput" label="Search" className="searchFloatingLabel">
                                     <FormControl
                                         type="search"
                                         placeholder="Search"
-                                        className="label"
+                                        className="searchLabel"
                                     />
                                 </FloatingLabel>
-                                <Button variant="outline-dark" className="button">Search</Button>
+                                <Button variant="outline-dark" className="searchButton">Search</Button>
                             </Form>
                         </Container>
                     </Navbar>
@@ -136,12 +113,13 @@ export const MainPage = () => {
                             </form>
                             {income.map((listItem: any, id) => (
                                 <ListGroup>
-                                    <ListGroupItem className="listItems" action variant="info" key={id}>{listItem} HUF
-                                        <div className="button2">
+                                    <ListGroupItem className="listItems" action variant="info"
+                                                   key={id}>{Number(listItem).toLocaleString()} HUF
+                                        <div className="incomeButton">
                                             <button value="delete1" className="deleteButton"
                                                     onClick={() => deleteListItemIncome(id)}>
-                                                <img className="closed" src={closedTrashbin2} alt=""/>
-                                                <img src={openedtrashbin} className="opened" alt=""/>
+                                                <img className="closed" src={closedTrashBin} alt=""/>
+                                                <img src={openedTrashBin} className="opened" alt=""/>
                                             </button>
                                         </div>
                                     </ListGroupItem>
@@ -149,13 +127,15 @@ export const MainPage = () => {
                             ))}
                             <div className="totalIncome"><h4>Total income:</h4></div>
                             <ListGroup>
-                                <ListGroupItem className="listItems" action variant="info">{getTotalIncome()} HUF</ListGroupItem>
+                                <ListGroupItem className="listItems" action
+                                               variant="info">{getTotalIncome().toLocaleString()} HUF</ListGroupItem>
                             </ListGroup>
                         </div>
                     </div>
                     <div className="mainPageBalanceTitleAndChart">
                         <img src={balanceTitle} className="mainPageBalanceTitle" alt=""/>
-                        <h1 style={hol} className="moneyTitle">{balance} HUF</h1>
+                        <div className="moneyTitleDiv"><h1 className="moneyTitle">{balance.toLocaleString()} HUF</h1>
+                        </div>
                         <Chart
                             className="doughnot"
                             chartType="PieChart"
@@ -165,11 +145,18 @@ export const MainPage = () => {
                                 ['Expense', getTotalExpenses()]
                             ]}
                             options={{
-                                pieHole: 0.5,
+                                pieSliceTextStyle: {
+                                    fontSize: '30',
+                                },
+                                slices: {
+                                    0: {color: '#c17094', offset: 0.01},
+                                    1: {color: '#3a61b5', offset: 0.01}
+                                },
                                 legend: 'bottom',
-                                chartArea:{left:0,top:0,width:"80%",height:"80%"},height: 550,width: 550,
+                                chartArea: {left: 20, top: 0, width: "80%", height: "80%"}, height: 500, width: 500,
+                                is3D: true
                             }}
-                            rootProps={{ 'data-testid': '3' }}
+                            rootProps={{'data-testid': '3'}}
                         />
                     </div>
                     <div className="incomeTable">
@@ -189,13 +176,12 @@ export const MainPage = () => {
                             {expenses.map((listItem: any, id) => (
                                 <ListGroup>
                                     <ListGroupItem className="listItems" action variant="danger"
-                                                   key={id}>{listItem} HUF
-                                        <div className="button2">
+                                                   key={id}>{Number(listItem).toLocaleString()} HUF
+                                        <div className="incomeButton">
                                             <button value="delete" className="deleteButton"
-                                                    onClick={() => deleteListItemExpenses(id)}><img className="closed"
-                                                                                                    src={closedTrashbin2}
-                                                                                                    alt=""/>
-                                                <img src={openedtrashbin} className="opened"/>
+                                                    onClick={() => deleteListItemExpenses(id)}>
+                                                <img className="closed" src={closedTrashBin} alt=""/>
+                                                <img src={openedTrashBin} className="opened" alt=""/>
                                             </button>
                                         </div>
                                     </ListGroupItem>
@@ -204,7 +190,7 @@ export const MainPage = () => {
                             <div className="totalIncome"><h4>Total expenses:</h4></div>
                             <ListGroup>
                                 <ListGroupItem className="listItems" action
-                                               variant="danger">{getTotalExpenses()} HUF</ListGroupItem>
+                                               variant="danger">{getTotalExpenses().toLocaleString()} HUF</ListGroupItem>
                             </ListGroup>
                         </div>
                     </div>
