@@ -1,7 +1,10 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import {useFormik} from "formik";
+import {useHistory} from "react-router-dom";
+import {APIService} from "../../APIService";
 import {
+    Badge,
     Button,
     Container,
     FloatingLabel,
@@ -10,65 +13,174 @@ import {
     ListGroup,
     ListGroupItem,
     Nav,
-    Navbar
+    Navbar,
+    Modal
 } from "react-bootstrap";
-import "./MainPageSCSS.css";
+import "./MainPageCSS.css";
 import background from "./mainPageBackground.jpg";
 import littleLogo from "./signin_icon.png";
 import balanceTitle from "./balance.png";
+import editButton from "./editButton.png";
 import closedTrashBin from "./closedtransbin.png";
 import openedTrashBin from "./openedtransbin.png";
 
 
 export const MainPage = () => {
 
+    useEffect(() => {
+        APIService.GetIncomes().then(setIncomes);
+        APIService.GetExpenses().then(setExpenses);
+    }, []);
+
+    const history = useHistory();
+
+    function handleRouteToHome() {
+        history.push("/mainpage");
+    }
+
+    function handleRouteToStatistics() {
+        history.push("/statistics");
+    }
+
+    function handleRouteToSaveMoney() {
+        history.push("/savemoney");
+    }
+
+    function handleRouteToAccount() {
+        history.push("/account");
+    }
+
+    function handleRouteToLogOut() {
+        history.push("/logout");
+    }
+
+
+    const [actualBadge, setActualBadge] = useState("");
+
+
     const formikIncome = useFormik({
         initialValues: {
-            context: "",
+            income: "",
+            badge: "",
+            date: "",
         },
         onSubmit: (values) => {
-            setIncome([...income, values.context]);
+            APIService.SavingIncomes(values).then(setIncomes);
             formikIncome.resetForm();
         },
-
     });
 
-    const [income, setIncome] = useState([] as string[]);
+    interface incomeObject {
+        income: string | number;
+        badge: string;
+        date: string;
+        incomeID: number;
+        userID?: number;
+    }
 
-    const getTotalIncome = () => income.map(Number).reduce(((sum: number, current: number) => sum + current), 0);
+    const [incomes, setIncomes] = useState([] as incomeObject[]);
+
+    const [currentlySelectedIncome, setCurrentlySelectedIncome] = useState(0);
+
+    const [showIncomesEditWindow, setShowIncomesEditWindow] = useState(false);
+
+    const getTotalIncome = () => incomes.map(inc => +inc.income).reduce(((sum: number, current: number) => sum + current), 0);
 
     function deleteListItemIncome(id: number) {
-        const newIncome = [...income];
-        newIncome.splice(id, 1);
-        setIncome(() => newIncome);
+        APIService.DeleteIncomes(id).then((response) => Array.isArray(response) ? setIncomes(response) : setIncomes([]));
     }
 
 
     const formikExpense = useFormik({
         initialValues: {
-            context: "",
+            expense: "",
+            badge: "",
+            date: "",
         },
         onSubmit: (values) => {
-            setExpenses([...expenses, values.context]);
+            APIService.SavingExpenses(values).then(setExpenses);
             formikExpense.resetForm();
         }
     });
 
-    const [expenses, setExpenses] = useState([] as string[]);
+    interface expenseObject {
+        expense: string | number;
+        badge: string;
+        date: string;
+        expenseID: number;
+        userID?: number;
+    }
 
-    const getTotalExpenses = () => expenses.map(Number).reduce(((sum: number, current: number) => sum + current), 0);
+    const [expenses, setExpenses] = useState([] as expenseObject[]);
 
-    function deleteListItemExpenses(id: number) {
-        const newExpenses = [...expenses];
-        newExpenses.splice(id, 1);
-        setExpenses(() => newExpenses);
+    const [currentlySelectedExpense, setCurrentlySelectedExpense] = useState(0);
+
+    const [showExpensesEditWindow, setShowExpensesEditWindow] = useState(false);
+
+    const getTotalExpense = () => expenses.map(exp => +exp.expense).reduce(((sum: number, current: number) => sum + current), 0);
+
+    function deleteListItemExpense(id: number) {
+        APIService.DeleteExpenses(id).then((response) => Array.isArray(response) ? setExpenses(response) : setExpenses([]));
     }
 
 
-    const balance = getTotalIncome() - getTotalExpenses();
+    const balance = getTotalIncome() - getTotalExpense();
+
 
     return (
         <Fragment>
+            {showIncomesEditWindow &&
+            <Modal size="sm"
+                   aria-labelledby="contained-modal-title-vcenter"
+                   centered show={showIncomesEditWindow} onHide={() => setShowIncomesEditWindow(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">Edit this income:</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="editWindow">What category is this income?
+                    <Button className="tags" onClick={() => setActualBadge("Salary")}>Salary</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Scholarship")}>Scholarship</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Other")}>Other</Button>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowIncomesEditWindow(false)}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={() => {
+                        setShowIncomesEditWindow(false);
+                        APIService.UpdateIncomes(actualBadge, currentlySelectedIncome).then(setIncomes)
+                    }}>Save Changes</Button>
+                </Modal.Footer>
+            </Modal>}
+
+
+            {showExpensesEditWindow &&
+            <Modal size="sm"
+                   aria-labelledby="contained-modal-title-vcenter"
+                   centered show={showExpensesEditWindow} onHide={() => setShowExpensesEditWindow(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">Edit this expense:</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="editWindow">What category is this expense?
+                    <Button className="tags" onClick={() => setActualBadge("Bills")}>Bills</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Food")}>Food</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Travelling")}>Travelling</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Clothes")}>Clothes</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Home")}>Home</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Drugstore")}>Drugstore</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Charity")}>Charity</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Fun")}>Fun</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Other")}>Other</Button>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowExpensesEditWindow(false)}>Close</Button>
+                    <Button variant="primary" onClick={() => {
+                        setShowExpensesEditWindow(false);
+                        APIService.UpdateExpenses(actualBadge, currentlySelectedExpense).then(setExpenses);
+                    }}>Save Changes</Button>
+                </Modal.Footer>
+            </Modal>}
+
+
             <div className="mainPageBackground" style={{backgroundImage: `url(${background})`}}>
                 <div>
                     <Navbar fixed="top" bg="light">
@@ -76,12 +188,12 @@ export const MainPage = () => {
                             <img className="littleLogo" src={littleLogo} alt=""/>
                             <Navbar.Brand href="#home">MoneyBuffer</Navbar.Brand>
                             <Nav className="me-auto">
-                                <Nav.Link href="#home">Home</Nav.Link>
-                                <Nav.Link href="#link">Statistics</Nav.Link>
-                                <Nav.Link href="#savemoney">Save Money</Nav.Link>
-                                <Nav.Link href="#account">Your Account</Nav.Link>
+                                <Nav.Link onClick={handleRouteToHome}>Home</Nav.Link>
+                                <Nav.Link onClick={handleRouteToStatistics}>Statistics</Nav.Link>
+                                <Nav.Link onClick={handleRouteToSaveMoney}>Save Money</Nav.Link>
+                                <Nav.Link onClick={handleRouteToAccount}>Your Account</Nav.Link>
                                 <div className="separatorLine"/>
-                                <Nav.Link href="#logout">Log Out</Nav.Link>
+                                <Nav.Link onClick={handleRouteToLogOut}>Log Out</Nav.Link>
                             </Nav>
                             <Form className="searchForm">
                                 <FloatingLabel controlId="floatingInput" label="Search" className="searchFloatingLabel">
@@ -104,27 +216,40 @@ export const MainPage = () => {
                                 <FloatingLabel className="incomeInput" label="Add incomes here...">
                                     <FormControl
                                         placeholder="Add incomes here..."
-                                        value={formikIncome.values.context}
+                                        value={formikIncome.values.income}
                                         onChange={formikIncome.handleChange}
-                                        id="context"
+                                        id="income"
                                     />
                                     <Button variant="outline-info" id="button-addon2" type="submit">Add</Button>
                                 </FloatingLabel>
                             </form>
-                            {income.map((listItem: any, id) => (
-                                <ListGroup>
-                                    <ListGroupItem className="listItems" action variant="info"
-                                                   key={id}>{Number(listItem).toLocaleString()} HUF
-                                        <div className="incomeButton">
-                                            <button value="delete1" className="deleteButton"
-                                                    onClick={() => deleteListItemIncome(id)}>
-                                                <img className="closed" src={closedTrashBin} alt=""/>
-                                                <img src={openedTrashBin} className="opened" alt=""/>
-                                            </button>
-                                        </div>
-                                    </ListGroupItem>
-                                </ListGroup>
-                            ))}
+                            <div className="itemListContainer">
+                                {incomes.map((listItem) => (
+                                    <ListGroup>
+                                        <ListGroupItem className="listItems" action variant="info"
+                                                       key={listItem.incomeID}>{Number(listItem.income).toLocaleString()} HUF
+                                            <Badge bg="danger" className="badge">
+                                                {listItem.badge}
+                                            </Badge>{' '}
+                                            <div className="MainPageEditDiv">
+                                                <button className="MainPageEditButton" onClick={() => {
+                                                    setShowIncomesEditWindow(true);
+                                                    setCurrentlySelectedIncome(listItem.incomeID)
+                                                }}>
+                                                    <img src={editButton} className="MainPageEditPic" alt=""/>
+                                                </button>
+                                            </div>
+                                            <div className="incomeButton">
+                                                <button value="delete1" className="deleteButton"
+                                                        onClick={() => deleteListItemIncome(listItem.incomeID)}>
+                                                    <img className="closed" src={closedTrashBin} alt=""/>
+                                                    <img src={openedTrashBin} className="opened" alt=""/>
+                                                </button>
+                                            </div>
+                                        </ListGroupItem>
+                                    </ListGroup>
+                                ))}
+                            </div>
                             <div className="totalIncome"><h4>Total income:</h4></div>
                             <ListGroup>
                                 <ListGroupItem className="listItems" action
@@ -137,12 +262,12 @@ export const MainPage = () => {
                         <div className="moneyTitleDiv"><h1 className="moneyTitle">{balance.toLocaleString()} HUF</h1>
                         </div>
                         <Chart
-                            className="doughnot"
+                            className="doughnut"
                             chartType="PieChart"
                             data={[
                                 ['Income', 'Expenses'],
                                 ['Income', getTotalIncome()],
-                                ['Expense', getTotalExpenses()]
+                                ['Expense', getTotalExpense()]
                             ]}
                             options={{
                                 pieSliceTextStyle: {
@@ -166,31 +291,45 @@ export const MainPage = () => {
                                 <FloatingLabel className="incomeInput" label="Add expenses here...">
                                     <FormControl
                                         placeholder="Add expenses here..."
-                                        value={formikExpense.values.context}
+                                        value={formikExpense.values.expense}
                                         onChange={formikExpense.handleChange}
-                                        id="context"
+                                        id="expense"
                                     />
                                     <Button variant="outline-danger" id="button-addon2" type="submit">Add</Button>
                                 </FloatingLabel>
                             </form>
-                            {expenses.map((listItem: any, id) => (
-                                <ListGroup>
-                                    <ListGroupItem className="listItems" action variant="danger"
-                                                   key={id}>{Number(listItem).toLocaleString()} HUF
-                                        <div className="incomeButton">
-                                            <button value="delete" className="deleteButton"
-                                                    onClick={() => deleteListItemExpenses(id)}>
-                                                <img className="closed" src={closedTrashBin} alt=""/>
-                                                <img src={openedTrashBin} className="opened" alt=""/>
-                                            </button>
-                                        </div>
-                                    </ListGroupItem>
-                                </ListGroup>
-                            ))}
+                            <div className="itemListContainer">
+                                {expenses.map((listItem, id) => (
+                                    <ListGroup>
+                                        <ListGroupItem className="listItems" action variant="danger" key={id}>
+                                            {Number(listItem.expense).toLocaleString()} HUF
+                                            <Badge bg="info" className="badge">
+                                                {listItem.badge}
+                                            </Badge>{' '}
+                                            <div className="MainPageEditDiv">
+                                                <button className="MainPageEditButton"
+                                                        onClick={() => {
+                                                            setShowExpensesEditWindow(true);
+                                                            setCurrentlySelectedExpense(listItem.expenseID)
+                                                        }}>
+                                                    <img src={editButton} className="MainPageEditPic" alt=""/>
+                                                </button>
+                                            </div>
+                                            <div className="incomeButton">
+                                                <button value="delete" className="deleteButton"
+                                                        onClick={() => deleteListItemExpense(listItem.expenseID)}>
+                                                    <img className="closed" src={closedTrashBin} alt=""/>
+                                                    <img src={openedTrashBin} className="opened" alt=""/>
+                                                </button>
+                                            </div>
+                                        </ListGroupItem>
+                                    </ListGroup>
+                                ))}
+                            </div>
                             <div className="totalIncome"><h4>Total expenses:</h4></div>
                             <ListGroup>
                                 <ListGroupItem className="listItems" action
-                                               variant="danger">{getTotalExpenses().toLocaleString()} HUF</ListGroupItem>
+                                               variant="danger">{getTotalExpense().toLocaleString()} HUF</ListGroupItem>
                             </ListGroup>
                         </div>
                     </div>

@@ -68,14 +68,21 @@
 }
 
 .listItems {
-    height: 50px;
+    height: 65px;
     margin: 5px;
     width: 250px;
+    position: relative;
 }
 
 .totalIncome {
     margin-top: 20px;
     margin-left: 45px;
+}
+
+.itemListContainer {
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /*middle*/
@@ -113,10 +120,48 @@
     padding-left: 100px;
 }
 
-.doughnot {
+.doughnut {
     background-image: none;
     padding-left: 30px;
     padding-top: 30px;
+}
+/*edit button*/
+.editWindow {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.tags {
+    margin: 10px;
+    width: 150px;
+    height: 50px;
+}
+
+.badge {
+    position: absolute;
+    top: 3.5px;
+    left: 1px;
+    opacity: 0.8;
+}
+
+.MainPageEditDiv {
+    width: 20px;
+    margin-left: 140px;
+    height: 0px;
+}
+
+.MainPageEditButton {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+}
+
+.MainPageEditPic {
+    width: 35px;
+    margin-top: -50px;
+    opacity: 0.8;
 }
 
 /*delete button*/
@@ -136,7 +181,7 @@
 .incomeButton .closed {
     width: 30px;
     position: absolute;
-    top: 15%;
+    top: 25%;
     left: 84.5%;
     z-index: 99;
 }
@@ -148,7 +193,7 @@
 .incomeButton .opened {
     display: none;
     position: absolute;
-    top: 0;
+    top: 15%;
     left: 85%;
     z-index: 99;
     width: 30px;
@@ -156,4 +201,19 @@
 
 .incomeButton:hover .opened {
     display: inline;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #ffff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #b66293;
 }

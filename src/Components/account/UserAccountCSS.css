@@ -1,0 +1,118 @@
+.account {
+    justify-content: center;
+    display: flex;
+    padding-top: 150px;
+}
+
+.AccountBackground {
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 800px;
+    width: 1600px;
+    border-radius: 30px;
+    display: flex;
+}
+
+.imageContainer {
+    height: 800px;
+    width: 500px;
+    border-right-style: solid;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileLabel {
+    font-size: 50px;
+    padding-top: 50px;
+    padding-left: 120px;
+    color: grey;
+}
+
+.userImage {
+    height: 150px;
+    width: 150px;
+    margin-top: 50px;
+    margin-left: 175px;
+}
+
+.selectButtonUser {
+    margin-top: 100px;
+    margin-left: 125px;
+    width: 250px;
+}
+
+.deleteButtonUser {
+    margin-top: 30px;
+    margin-left: 125px;
+    width: 250px;
+}
+
+.infoContainer {
+    display: flex;
+}
+
+.labelContainer {
+    flex-direction: column;
+    margin: 30px;
+}
+
+.infoLabel {
+    margin-top: 75px;
+    margin-left: 50px;
+    font-size: 30px;
+}
+
+.nameLabel {
+    margin-top: 40px;
+    margin-left: 80px;
+    font-size: 20px;
+}
+
+.emailLabel {
+    margin-top: 65px;
+    margin-left: 80px;
+    font-size: 20px;
+}
+
+.passwordLabel {
+    margin-top: 60px;
+    margin-left: 80px;
+    font-size: 20px;
+}
+
+.passwordDivUser {
+    display: flex;
+}
+
+.FloatingLabelsUserPassword {
+    margin: 35px;
+    margin-top: 0px;
+    width: 400px;
+}
+
+.ChangeButtonUser {
+    height: 50px;
+   margin-top: 5px;
+}
+
+.fieldContainer {
+    margin-top: 140px;
+}
+
+.FloatingLabelsUser {
+    margin: 35px;
+    width: 400px;
+}
+
+.userButtons {
+    width: 200px;
+    height: 60px;
+    margin-top: 230px;
+    margin-left: 550px;
+}
+
+.userButtons2 {
+    width: 200px;
+    height: 60px;
+    margin-top: 230px;
+    margin-left: 70px;
+}

@@ -1,26 +1,3 @@
-.MainPageTitle {
-    padding: 80px 0px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    box-shadow: 0 0 15px 15px #e7d1ed;
-    justify-content: center;
-    display: flex;
-}
-
-.MainPageContent {
-    display: flex;
-}
-
-.MoneyBuffTitle {
-    justify-content: center;
-    font-size: 50px;
-    font-family: "Book Antiqua", serif;
-    color: white;
-    margin-bottom: 50px;
-    margin-left: 3px;
-    text-shadow:  0 0 4px black, 0 0 4px black;
-}
-
 .ErrorMessage {
     position: absolute;
     justify-content: center;
@@ -28,7 +5,6 @@
     width: 100%;
     margin-top: 1.5rem;
     font-weight: bold;
-
 }
 
 .ErrorMessage > .toast {
@@ -47,45 +23,47 @@
     font-size: 1.25rem;
 }
 
-.MainPageLogo {
+.WelcomePageTitle {
+    padding: 80px 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 0 15px 15px #e7d1ed;
+    justify-content: center;
+    display: flex;
+}
+
+.MoneyBuffTitle {
+    justify-content: center;
+    font-size: 50px;
+    font-family: "Book Antiqua", serif;
+    color: white;
+    margin-bottom: 50px;
+    margin-left: 3px;
+    text-shadow: 0 0 4px black, 0 0 4px black;
+}
+
+.WelcomePageContent {
+    display: flex;
+}
+
+.WelcomePageLogo {
     height: 40vh;
     padding-left: 60px;
     padding-top: 50px;
     margin-left: 380px;
 }
 
-.MainPageSubtitle {
+.WelcomePageSubtitle {
     font-family: "Book Antiqua", serif;
     font-size: 30px;
     margin-left: 450px;
     background-color: rgba(192, 192, 192, 0.4);
-    box-shadow: -10px -8px 21px 1px rgba(0,0,0,0.16);
+    box-shadow: -10px -8px 21px 1px rgba(0, 0, 0, 0.16);
     padding: 20px;
     border-radius: 25px;
 }
 
-.signin {
-    border-radius: 50%;
-    height: 130px;
-    width: 130px;
-    margin-left: 30px;
-}
-
-.signinLabelAndPicture{
-    display: flex;
-}
-
-.signInLabel {
-    font-size: 50px;
-    margin-left: 30px;
-    margin-top: 20px;
-}
-
-.MainPageContent {
-    display: flex;
-}
-
-.verticalLine {
+.verticalLineTop {
     border-left: 3px solid silver;
     height: 300px;
     position: absolute;
@@ -95,7 +73,7 @@
     -webkit-border-image: -webkit-gradient(linear, 0 100%, 0 0, from(black), to(rgba(0, 0, 0, 0))) 1 100%;
 }
 
-.verticalLine2 {
+.verticalLineBottom {
     border-left: 3px solid silver;
     height: 300px;
     position: absolute;
@@ -105,60 +83,66 @@
     -webkit-border-image: -webkit-gradient(linear, 0 100%, 0 0, from(rgba(0, 0, 0, 0)), to(black)) 1 100%;
 }
 
-.MainPageLoginForm {
+.WelcomePageLoginForm {
     margin-top: 80px;
     margin-left: 190px;
     background-color: rgba(192, 192, 192, 0.4);
-    box-shadow: -10px -8px 21px 1px rgba(0,0,0,0.16);
+    box-shadow: -10px -8px 21px 1px rgba(0, 0, 0, 0.16);
     padding: 30px;
     border-radius: 25px;
 }
 
-.MainPageEmailInputField {
-    width: 300px;
-    height: 40px;
-    font-size: large;
-    margin-left: 20px;
-    margin-top: 50px;
+.singInLabelAndPicture {
+    display: flex;
 }
 
-.MainPageEmailLabel {
+.singIn {
+    border-radius: 50%;
+    height: 130px;
+    width: 130px;
+    margin-left: 30px;
+}
+
+.signInLabel {
+    font-size: 50px;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.WelcomePageForm {
+    display: flex;
+    margin-top: 30px;
+}
+
+.WelcomePageEmailLabel {
     border-radius: 50%;
     height: 80px;
     width: 80px;
 }
 
-.MainPagePasswordInputField {
-    width: 300px;
-    height: 40px;
-    margin-top: 50px;
+.FloatingLabels {
+    margin-top: 10px;
     margin-left: 20px;
+}
+
+.WelcomePageEmailInputField {
+    width: 300px !important;
+    height: 40px;
     font-size: large;
 }
 
-.MainPagePasswordLabel {
+.WelcomePagePasswordLabel {
     border-radius: 50%;
     width: 80px;
 }
 
-.LoginButton{
-    margin-top: 40px;
-    margin-left: 170px;
-    width: 90px;
-    height: 90px;
-    padding: 0 !important;
-    border: 0;
-    background: transparent;
-    border-radius: 50%;
+.WelcomePagePasswordInputField {
+    width: 300px !important;
+    height: 40px;
+    font-size: large;
 }
 
-.LoginButton > img {
-    border-radius: 50%;
-    width: 90px;
-    height: 90px;
-}
-
-.Register{
+.Register {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -173,4 +157,21 @@
 .RegisterButton {
     opacity: 0.5;
     margin-left: 20px;
+}
+
+.LoginButton {
+    margin-top: 40px;
+    margin-left: 170px;
+    width: 90px;
+    height: 90px;
+    padding: 0 !important;
+    border: 0;
+    background: transparent;
+    border-radius: 50%;
+}
+
+.LoginButton > img {
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
 }

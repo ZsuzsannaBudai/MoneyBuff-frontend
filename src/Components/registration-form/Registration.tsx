@@ -2,13 +2,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button, Toast} from "react-bootstrap";
 import {useFormik} from "formik";
 import "./RegistrationSCSS.css";
-import {Fragment, useState} from "react";
+import React, {Fragment, useState} from "react";
 import email from "./email.png";
 import password from "./passwprd.jpg";
 import user_icon from "./login_icon.jpg";
 import {APIService} from "../../APIService";
 import {useHistory} from "react-router-dom";
 import {Status} from "../../Enums";
+import Spinner from "react-bootstrap/Spinner";
 
 
 export const Registration = () => {
@@ -21,6 +22,8 @@ export const Registration = () => {
 
     let [isError, setError] = useState(false);
 
+    let [isLoading, setLoading] = useState(false);
+
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -28,11 +31,12 @@ export const Registration = () => {
             password: '',
         },
         onSubmit: async (values) => {
+            setLoading(true);
             APIService.Register(values).then(data => {
-                console.log(data);
-                if(data === Status.SUCCESS){
+                if (data === Status.SUCCESS) {
+                    setLoading(false);
                     handleRoute();
-                }else{
+                } else {
                     setError(true);
                 }
             });
@@ -43,7 +47,7 @@ export const Registration = () => {
         <Fragment>
             {isError &&
             <div className="ErrorMessage">
-                <Toast bg="danger" onClose={() => setError(false)} >
+                <Toast bg="danger" onClose={() => {setError(false); setLoading(false)}}>
                     <Toast.Header><strong>Error: User already exists!</strong></Toast.Header>
                 </Toast>
             </div>}
@@ -51,7 +55,7 @@ export const Registration = () => {
                 <h1 className="subTitle">Create your account:</h1>
                 <form onSubmit={formik.handleSubmit}>
                     <div>
-                        <img className="userIcon" src={user_icon}/>
+                        <img className="userIcon" src={user_icon} alt=""/>
                         <input
                             className="userLabel"
                             id="name"
@@ -62,7 +66,7 @@ export const Registration = () => {
                         />
                     </div>
                     <div>
-                        <img className="userIcon" src={email}/>
+                        <img className="userIcon" src={email} alt=""/>
                         <input
                             className="userLabel"
                             id="email"
@@ -73,7 +77,7 @@ export const Registration = () => {
                         />
                     </div>
                     <div>
-                        <img className="userIcon" src={password}/>
+                        <img className="userIcon" src={password} alt=""/>
                         <input
                             className="userLabel"
                             id="password"
@@ -83,7 +87,9 @@ export const Registration = () => {
                             value={formik.values.password}
                         />
                     </div>
-                    <Button className="registerButton" type="submit" variant="secondary">Register</Button>
+                    <Button className="registerButton" type="submit" variant="secondary">
+                        {!isLoading && "Register"}
+                        {isLoading && <Spinner animation="border" className="spinner"/>}</Button>
                 </form>
             </div>
         </Fragment>
