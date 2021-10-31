@@ -1,0 +1,11 @@
+.statisticsCharts {
+    justify-content: center;
+    display: flex;
+    padding-top: 150px;
+    flex-wrap: wrap;
+    margin-left: -200px;
+}
+
+.secondTwoChartsOnStatistics {
+    padding-left: 150px;
+}

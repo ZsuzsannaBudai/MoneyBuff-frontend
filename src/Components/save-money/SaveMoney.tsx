@@ -1,5 +1,5 @@
 import './SaveMoneyCSS.css';
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import background from "../main-page/mainPageBackground.jpg";
 import {Button, Container, FloatingLabel, Form, FormControl, Nav, Navbar} from "react-bootstrap";
@@ -8,6 +8,11 @@ import {useFormik} from "formik";
 import {APIService} from "../../APIService";
 
 export const SaveMoney = () => {
+
+    useEffect(() => {
+        APIService.getUserSavings().then(setUserSavings);
+    }, []);
+
     const history = useHistory();
 
     function handleRouteToHome() {
@@ -98,13 +103,13 @@ export const SaveMoney = () => {
                             want to save monthly will be blocked, you can't spend it.
                         </div>
                         <div className="formContainer">
-                            <div>
+                            <div className="saveFormContainer">
                                 <form onSubmit={formik.handleSubmit}>
                                     <div className="infoContainer">
                                         <div className="labelContainer">
-                                            <div className="nameLabel">Monthly fix</div>
-                                            <div className="emailLabel">Monthly Non-Fix</div>
-                                            <div className="passwordLabel">Save</div>
+                                            <div className="fixLabel">Monthly fix</div>
+                                            <div className="nonfixlabel">Monthly Non-Fix</div>
+                                            <div className="saveLabel">Save</div>
                                         </div>
                                         <div className="fieldContainer">
                                             <FloatingLabel controlId="floatingInput" label="Monthly Fix"
@@ -118,7 +123,7 @@ export const SaveMoney = () => {
                                                     value={userSavings.map(saving => saving.monthlyfix)}
                                                 />
                                             </FloatingLabel>
-                                            <FloatingLabel controlId="floatingInput" label="Monthly Non-Fix" className="FloatingLabelsSave">
+                                            <FloatingLabel controlId="floatingInput" label="Monthly Non-Fix" className="FloatingLabelsSavenonfix">
                                                 <FormControl
                                                     id="monthlynonfix"
                                                     name="monthlynonfix"
@@ -130,7 +135,7 @@ export const SaveMoney = () => {
                                             </FloatingLabel>
                                             <div className="passwordDivUser">
                                                 <FloatingLabel controlId="floatingInput" label="Save"
-                                                               className="FloatingLabelsSave">
+                                                               className="FloatingLabelsSaveSave">
                                                     <FormControl
                                                         id="password"
                                                         name="password"
@@ -146,7 +151,7 @@ export const SaveMoney = () => {
                                 </form>
                             </div>
                             <div>
-                                <Button>Save</Button>
+                                <Button variant="outline-secondary" className="saveSaveButton">Let's Save Money</Button>{' '}
                             </div>
                         </div>
                     </div>

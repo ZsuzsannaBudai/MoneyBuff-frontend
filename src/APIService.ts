@@ -139,12 +139,21 @@ export class APIService {
     }
 
     public static saveUserSavings(values: any) {
-        return fetch(`${API_URL}/users/UserSavings`, {
+        return fetch(`${API_URL}/savings/userSavings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(values)
+        }).then(response => response.json());
+    }
+
+    public static getUserSavings() {
+        return fetch(`${API_URL}/savings/storedUserSavings`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
         }).then(response => response.json());
     }
 }

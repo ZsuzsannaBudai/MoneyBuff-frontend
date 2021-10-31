@@ -139,6 +139,10 @@ export const MainPage = () => {
                 <Modal.Body className="editWindow">What category is this income?
                     <Button className="tags" onClick={() => setActualBadge("Salary")}>Salary</Button>
                     <Button className="tags" onClick={() => setActualBadge("Scholarship")}>Scholarship</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Cafeteria")}>Cafeteria</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Bonus")}>Bonus</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Gift")}>Gift</Button>
+                    <Button className="tags" onClick={() => setActualBadge("Saved Money")}>Saved Money</Button>
                     <Button className="tags" onClick={() => setActualBadge("Other")}>Other</Button>
                 </Modal.Body>
                 <Modal.Footer>

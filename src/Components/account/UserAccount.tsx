@@ -87,9 +87,9 @@ export const UserAccount = () => {
                         <div className="imageContainer">
                             <div className="profileLabel">Your Profile</div>
                             <Image className="userImage" src={littleLogo} rounded/>
-                            <Button variant="outline-success" className="selectButtonUser">Select a
+                            <Button variant="outline-secondary" className="selectButtonUser">Select a
                                 picture</Button>{' '}
-                            <Button variant="outline-success" className="deleteButtonUser" onClick={() => {
+                            <Button variant="outline-secondary" className="deleteButtonUser" onClick={() => {
                                 APIService.DeleteUser().then();
                                 handleRouteToLogOut()}}>Delete account</Button>{' '}
                         </div>
@@ -137,13 +137,13 @@ export const UserAccount = () => {
                                                     value={userData.map(user => user.password)}
                                                 />
                                             </FloatingLabel>
-                                            <Button className="ChangeButtonUser">Change</Button>
+                                            <Button variant="outline-secondary" className="ChangeButtonUser">Change</Button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <Button className="userButtons">Make a Household</Button>
-                            <Button className="userButtons2">Save</Button>
+                            <Button variant="outline-secondary" className="userButtons">Make a Household</Button>
+                            <Button variant="outline-secondary" className="userButtons2">Save</Button>
                         </div>
                     </div>
                 </div>

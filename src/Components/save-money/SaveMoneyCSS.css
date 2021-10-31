@@ -11,7 +11,6 @@
     border-radius: 30px;
     display: flex;
     flex-direction: column;
-    align-items: start;
 }
 
 .marketingText {
@@ -23,11 +22,43 @@
 }
 
 .fixLabel {
-    margin-top: 75px;
-    margin-left: 50px;
-    font-size: 30px;
+    margin-top: 25px;
+    margin-left: 80px;
+    font-size: 20px;
+}
+
+.nonfixlabel {
+    margin-top: 55px;
+    margin-left: 80px;
+    font-size: 20px;
+}
+
+.saveLabel {
+    margin-top: 55px;
+    margin-left: 80px;
+    font-size: 20px;
+}
+
+.FloatingLabelsSave {
+    margin-top: -100px;
+}
+
+.FloatingLabelsSavenonfix {
+    margin-top: 30px;
+}
+
+.FloatingLabelsSaveSave {
+    margin-top: 30px;
+}
+
+.saveSaveButton {
+    margin-left: 200px;
+    margin-top: 25px;
+    width: 200px;
+    height: 50px;
 }
 
 .formContainer {
-
+    padding-left: 450px;
+    margin-top: -50px;
 }
