@@ -156,4 +156,40 @@ export class APIService {
             },
         }).then(response => response.json());
     }
+
+    public static getStatisticsAboutMonthlyIncomeBadge(month: number){
+        return fetch(`${API_URL}/statistics/monthlyIncomeBadge`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({
+                date: month
+            })
+        }).then(response => response.json());
+    }
+
+    public static getStatisticsAboutMonthlyAverageExpenses(month: number){
+        return fetch(`${API_URL}/statistics/monthlyAverage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({
+                date: month
+            })
+        }).then(response => response.json());
+    }
+
+    public static getStatisticsAboutMonthlyExpenseBadge(month: number){
+        return fetch(`${API_URL}/statistics/monthlyExpenseBadge`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({
+                date: month
+            })
+        }).then(response => response.json());
+    }
 }

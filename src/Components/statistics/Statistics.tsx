@@ -1,10 +1,11 @@
 import './StatisticsCSS.css';
-import React, {Fragment} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import {useHistory} from "react-router-dom";
 import background from "../main-page/mainPageBackground.jpg";
 import {Button, Container, FloatingLabel, Form, FormControl, Nav, Navbar} from "react-bootstrap";
 import littleLogo from "../main-page/signin_icon.png";
+import {APIService} from "../../APIService";
 
 export const Statistics = () => {
     const history = useHistory();
@@ -29,6 +30,53 @@ export const Statistics = () => {
         history.push("/logout");
     }
 
+    interface monthlyIncomeChartResponse {
+        sumOfIncome: number;
+        badge: string;
+    }
+
+    interface monthlyAverageExpensesResponse {
+        sumOfExpense: number;
+        month: number;
+    }
+
+    interface monthlyExpenseChartResponse {
+        sumOfExpense: number;
+        badge: string;
+    }
+
+    const [monthlyIncomeChartData, setMonthlyIncomeChartData] = useState([] as monthlyIncomeChartResponse[]);
+
+    const [monthlyAverageExpenses, setMonthlyAverageExpenses] = useState([] as monthlyAverageExpensesResponse[]);
+
+    const [monthlyExpenseChartData, setMonthlyExpenseChartData] = useState([] as monthlyExpenseChartResponse[]);
+
+    const [monthlyExpenseBadgeChartData, setMonthlyExpenseBadgeChartData] = useState([[], [], []] as any[][]);
+
+    const expenseCategories = ['Bills', 'Food', 'Travelling', 'Clothes', 'Home', 'Drugstore', 'Charity', 'Fun', 'Other'];
+
+    const currMonth = new Date().getMonth() + 1;
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augustus', 'September', 'October', 'November', 'December'];
+
+    useEffect(() => {
+        APIService.getStatisticsAboutMonthlyIncomeBadge(currMonth).then(setMonthlyIncomeChartData)
+        APIService.getStatisticsAboutMonthlyAverageExpenses(currMonth).then((response) => {
+            setMonthlyAverageExpenses(response);
+            APIService.getStatisticsAboutMonthlyAverageExpenses(currMonth - 1).then(previousMonth => {
+                APIService.getStatisticsAboutMonthlyAverageExpenses(currMonth - 2).then(twoMonthAgo => {
+                    setMonthlyAverageExpenses([twoMonthAgo, previousMonth, response]);
+                });
+            })
+        });
+        APIService.getStatisticsAboutMonthlyExpenseBadge(currMonth).then((response) => {
+            setMonthlyExpenseChartData(response);
+            APIService.getStatisticsAboutMonthlyExpenseBadge(currMonth - 1).then(previousMonth => {
+                APIService.getStatisticsAboutMonthlyExpenseBadge(currMonth - 2).then(twoMonthsAgo => {
+                    setMonthlyExpenseBadgeChartData([twoMonthsAgo, previousMonth, response]);
+                });
+            })
+        });
+    }, [])
 
     return (
         <Fragment>
@@ -61,17 +109,11 @@ export const Statistics = () => {
                 </div>
                 <div className="statisticsCharts">
                     <div className="firstTwoChartsOnStatistics">
-                        <Chart
+                        {!!monthlyIncomeChartData.length ? <Chart
                             chartType="ColumnChart"
                             data={[
                                 ['Incomes', 'Income'],
-                                ['Salary', 8008000],
-                                ['Scholarship', 3694000],
-                                ['Cafeteria', 200000],
-                                ['Bonus', 8008000],
-                                ['Gift', 3694000],
-                                ['Saved Money', 200000],
-                                ['Other', 2896000],
+                                ...monthlyIncomeChartData.map((dataByBadge) => [dataByBadge.badge, dataByBadge.sumOfIncome])
                             ]}
                             options={{
                                 title: 'How much money you have from where?',
@@ -86,16 +128,14 @@ export const Statistics = () => {
                                 fontSize: 15,
                             }}
                             legendToggle
-                        />
-                        <Chart
+                        /> : <span>No data available.</span>}
+                        {!!monthlyAverageExpenses.length ? <Chart
                             chartType="ColumnChart"
                             data={[
                                 ['Month', 'Expense'],
-                                ['November', 8008000],
-                                ['December', 3694000],
-                                ['January', 2896000],
-                                ['February', 1953000],
-                                ['March', 1517000],
+                                [months[currMonth - 3], monthlyAverageExpenses[2]?.sumOfExpense],
+                                [months[currMonth - 2], monthlyAverageExpenses[1]?.sumOfExpense],
+                                [months[currMonth - 1], monthlyAverageExpenses[0]?.sumOfExpense]
                             ]}
                             options={{
                                 title: 'How much money you spending in a month in average?',
@@ -110,22 +150,14 @@ export const Statistics = () => {
                                 fontSize: 15
                             }}
                             legendToggle
-                        />
+                        /> : <span>No data available.</span>}
                     </div>
                     <div className="secondTwoChartsOnStatistics">
-                        <Chart
+                        {!!monthlyIncomeChartData.length ? <Chart
                             chartType="ColumnChart"
                             data={[
                                 ['Expenses', 'Expense'],
-                                ['Bills',  8008000],
-                                ['Food',  3694000],
-                                ['Travelling',  8008000],
-                                ['Clothes',  3694000],
-                                ['Home',  8008000],
-                                ['Drugstore',  3694000],
-                                ['Charity',  8008000],
-                                ['Fun',  3694000],
-                                ['Other',  2896000],
+                                ...monthlyExpenseChartData.map((expenseByMonth) => [expenseByMonth.badge, expenseByMonth.sumOfExpense])
                             ]}
                             options={{
                                 title: 'How much you spending on what?',
@@ -140,14 +172,23 @@ export const Statistics = () => {
                                 fontSize: 15
                             }}
                             legendToggle
-                        />
+                        /> : <span>No data available.</span>}
                         <Chart
                             chartType="ColumnChart"
                             data={[
-                                ['Month', 'Bills', 'Food', 'Travelling', 'Clothes', 'Home', 'Drugstore', 'Charity', 'Fun', 'Other'],
-                                ['November', 8008000, 5000000, 2000000, 8008000, 5000000, 2000000, 8008000, 5000000, 2000000],
-                                ['December', 8008000, 5000000, 2000000, 8008000, 5000000, 2000000, 8008000, 5000000, 2000000],
-                                ['January', 8008000, 5000000, 2000000, 8008000, 5000000, 2000000, 8008000, 5000000, 2000000],
+                                ['Month', ...expenseCategories],
+                                [months[currMonth - 3], ...expenseCategories.map(category => {
+                                    const sumForCategory = monthlyExpenseBadgeChartData[0].find(dataByBadge => dataByBadge.badge === category)?.sumOfExpense;
+                                    return sumForCategory ?? 0;
+                                })],
+                                [months[currMonth - 2], ...expenseCategories.map(category => {
+                                    const sumForCategory = monthlyExpenseBadgeChartData[1].find(dataByBadge => dataByBadge.badge === category)?.sumOfExpense;
+                                    return sumForCategory ?? 0;
+                                })],
+                                [months[currMonth - 1], ...expenseCategories.map(category => {
+                                    const sumForCategory = monthlyExpenseBadgeChartData[2].find(dataByBadge => dataByBadge.badge === category)?.sumOfExpense;
+                                    return sumForCategory ?? 0;
+                                })]
                             ]}
                             options={{
                                 title: 'How your expenses split monthly?',
