@@ -8,7 +8,6 @@ import {
     Button,
     Container,
     FloatingLabel,
-    Form,
     FormControl,
     ListGroup,
     ListGroupItem,
@@ -23,6 +22,7 @@ import balanceTitle from "./balance.png";
 import editButton from "./editButton.png";
 import closedTrashBin from "./closedtransbin.png";
 import openedTrashBin from "./openedtransbin.png";
+import Spinner from "react-bootstrap/Spinner";
 
 
 export const MainPage = () => {
@@ -31,6 +31,8 @@ export const MainPage = () => {
         APIService.GetIncomes().then(setIncomes);
         APIService.GetExpenses().then(setExpenses);
     }, []);
+
+    let [isLoading, setLoading] = useState(false);
 
     const history = useHistory();
 
@@ -65,8 +67,10 @@ export const MainPage = () => {
             date: "",
         },
         onSubmit: (values) => {
+            setLoading(true);
             APIService.SavingIncomes(values).then(setIncomes);
             formikIncome.resetForm();
+            setLoading(false);
         },
     });
 
@@ -98,8 +102,10 @@ export const MainPage = () => {
             date: "",
         },
         onSubmit: (values) => {
+            setLoading(true);
             APIService.SavingExpenses(values).then(setExpenses);
             formikExpense.resetForm();
+            setLoading(false);
         }
     });
 
@@ -190,7 +196,7 @@ export const MainPage = () => {
                     <Navbar fixed="top" bg="light">
                         <Container>
                             <img className="littleLogo" src={littleLogo} alt=""/>
-                            <Navbar.Brand href="#home">MoneyBuffer</Navbar.Brand>
+                            <Navbar.Brand onClick={handleRouteToHome}>MoneyBuffer</Navbar.Brand>
                             <Nav className="me-auto">
                                 <Nav.Link onClick={handleRouteToHome}>Home</Nav.Link>
                                 <Nav.Link onClick={handleRouteToStatistics}>Statistics</Nav.Link>
@@ -199,16 +205,6 @@ export const MainPage = () => {
                                 <div className="separatorLine"/>
                                 <Nav.Link onClick={handleRouteToLogOut}>Log Out</Nav.Link>
                             </Nav>
-                            <Form className="searchForm">
-                                <FloatingLabel controlId="floatingInput" label="Search" className="searchFloatingLabel">
-                                    <FormControl
-                                        type="search"
-                                        placeholder="Search"
-                                        className="searchLabel"
-                                    />
-                                </FloatingLabel>
-                                <Button variant="outline-dark" className="searchButton">Search</Button>
-                            </Form>
                         </Container>
                     </Navbar>
                 </div>
@@ -224,7 +220,10 @@ export const MainPage = () => {
                                         onChange={formikIncome.handleChange}
                                         id="income"
                                     />
-                                    <Button variant="outline-info" id="button-addon2" type="submit">Add</Button>
+                                    <Button variant="outline-info" id="button-addon2" type="submit">
+                                        {!isLoading && "Add"}
+                                        {isLoading && <Spinner animation="border" className="spinner"/>}
+                                    </Button>
                                 </FloatingLabel>
                             </form>
                             <div className="itemListContainer">
@@ -281,9 +280,13 @@ export const MainPage = () => {
                                     0: {color: '#c17094', offset: 0.01},
                                     1: {color: '#3a61b5', offset: 0.01}
                                 },
-                                legend: 'bottom',
+                                legend: {
+                                    textStyle: {color: 'white'},
+                                    position: 'bottom'
+                                },
                                 chartArea: {left: 20, top: 0, width: "80%", height: "80%"}, height: 500, width: 500,
-                                is3D: true
+                                is3D: true,
+                                color: '#ffffff'
                             }}
                             rootProps={{'data-testid': '3'}}
                         />
@@ -299,7 +302,10 @@ export const MainPage = () => {
                                         onChange={formikExpense.handleChange}
                                         id="expense"
                                     />
-                                    <Button variant="outline-danger" id="button-addon2" type="submit">Add</Button>
+                                    <Button variant="outline-danger" id="button-addon2" type="submit">
+                                        {!isLoading && "Add"}
+                                        {isLoading && <Spinner animation="border" className="spinner"/>}
+                                    </Button>
                                 </FloatingLabel>
                             </form>
                             <div className="itemListContainer">

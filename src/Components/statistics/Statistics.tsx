@@ -3,7 +3,7 @@ import React, {Fragment, useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import {useHistory} from "react-router-dom";
 import background from "../main-page/mainPageBackground.jpg";
-import {Button, Container, FloatingLabel, Form, FormControl, Nav, Navbar} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
 import littleLogo from "../main-page/signin_icon.png";
 import {APIService} from "../../APIService";
 
@@ -37,7 +37,7 @@ export const Statistics = () => {
 
     interface monthlyAverageExpensesResponse {
         sumOfExpense: number;
-        month: number;
+        month: string;
     }
 
     interface monthlyExpenseChartResponse {
@@ -55,23 +55,23 @@ export const Statistics = () => {
 
     const expenseCategories = ['Bills', 'Food', 'Travelling', 'Clothes', 'Home', 'Drugstore', 'Charity', 'Fun', 'Other'];
 
-    const currMonth = new Date().getMonth() + 1;
+    const currentMonth = new Date().getMonth() + 1;
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augustus', 'September', 'October', 'November', 'December'];
 
     useEffect(() => {
-        APIService.getStatisticsAboutMonthlyIncomeBadge(currMonth).then(setMonthlyIncomeChartData)
-        APIService.getStatisticsAboutMonthlyAverageExpenses(currMonth).then((response) => {
+        APIService.getStatisticsAboutMonthlyIncomeBadge(currentMonth).then(setMonthlyIncomeChartData)
+        APIService.getStatisticsAboutMonthlyAverageExpenses(currentMonth).then((response) => {
             setMonthlyAverageExpenses(response);
-            APIService.getStatisticsAboutMonthlyAverageExpenses(currMonth - 1).then(previousMonth => {
-                APIService.getStatisticsAboutMonthlyAverageExpenses(currMonth - 2).then(twoMonthAgo => {
+            APIService.getStatisticsAboutMonthlyAverageExpenses(currentMonth - 1).then(previousMonth => {
+                APIService.getStatisticsAboutMonthlyAverageExpenses(currentMonth - 2).then(twoMonthAgo => {
                     setMonthlyAverageExpenses([twoMonthAgo, previousMonth, response]);
                 });
             })
         });
-        APIService.getStatisticsAboutMonthlyExpenseBadge(currMonth).then((response) => {
+        APIService.getStatisticsAboutMonthlyExpenseBadge(currentMonth).then((response) => {
             setMonthlyExpenseChartData(response);
-            APIService.getStatisticsAboutMonthlyExpenseBadge(currMonth - 1).then(previousMonth => {
-                APIService.getStatisticsAboutMonthlyExpenseBadge(currMonth - 2).then(twoMonthsAgo => {
+            APIService.getStatisticsAboutMonthlyExpenseBadge(currentMonth - 1).then(previousMonth => {
+                APIService.getStatisticsAboutMonthlyExpenseBadge(currentMonth - 2).then(twoMonthsAgo => {
                     setMonthlyExpenseBadgeChartData([twoMonthsAgo, previousMonth, response]);
                 });
             })
@@ -85,7 +85,7 @@ export const Statistics = () => {
                     <Navbar fixed="top" bg="light">
                         <Container>
                             <img className="littleLogo" src={littleLogo} alt=""/>
-                            <Navbar.Brand href="#home">MoneyBuffer</Navbar.Brand>
+                            <Navbar.Brand onClick={handleRouteToHome}>MoneyBuffer</Navbar.Brand>
                             <Nav className="me-auto">
                                 <Nav.Link onClick={handleRouteToHome}>Home</Nav.Link>
                                 <Nav.Link onClick={handleRouteToStatistics}>Statistics</Nav.Link>
@@ -94,16 +94,6 @@ export const Statistics = () => {
                                 <div className="separatorLine"/>
                                 <Nav.Link onClick={handleRouteToLogOut}>Log Out</Nav.Link>
                             </Nav>
-                            <Form className="searchForm">
-                                <FloatingLabel controlId="floatingInput" label="Search" className="searchFloatingLabel">
-                                    <FormControl
-                                        type="search"
-                                        placeholder="Search"
-                                        className="searchLabel"
-                                    />
-                                </FloatingLabel>
-                                <Button variant="outline-dark" className="searchButton">Search</Button>
-                            </Form>
                         </Container>
                     </Navbar>
                 </div>
@@ -133,9 +123,9 @@ export const Statistics = () => {
                             chartType="ColumnChart"
                             data={[
                                 ['Month', 'Expense'],
-                                [months[currMonth - 3], monthlyAverageExpenses[2]?.sumOfExpense],
-                                [months[currMonth - 2], monthlyAverageExpenses[1]?.sumOfExpense],
-                                [months[currMonth - 1], monthlyAverageExpenses[0]?.sumOfExpense]
+                                [months[currentMonth - 3], monthlyAverageExpenses[2]?.sumOfExpense],
+                                [months[currentMonth - 2], monthlyAverageExpenses[1]?.sumOfExpense],
+                                [months[currentMonth - 1], monthlyAverageExpenses[0]?.sumOfExpense]
                             ]}
                             options={{
                                 title: 'How much money you spending in a month in average?',
@@ -146,8 +136,9 @@ export const Statistics = () => {
                                 },
                                 vAxis: {
                                     title: 'How much?',
+                                    minValue: 0
                                 },
-                                fontSize: 15
+                                fontSize: 15,
                             }}
                             legendToggle
                         /> : <span>No data available.</span>}
@@ -177,15 +168,15 @@ export const Statistics = () => {
                             chartType="ColumnChart"
                             data={[
                                 ['Month', ...expenseCategories],
-                                [months[currMonth - 3], ...expenseCategories.map(category => {
+                                [months[currentMonth - 3], ...expenseCategories.map(category => {
                                     const sumForCategory = monthlyExpenseBadgeChartData[0].find(dataByBadge => dataByBadge.badge === category)?.sumOfExpense;
                                     return sumForCategory ?? 0;
                                 })],
-                                [months[currMonth - 2], ...expenseCategories.map(category => {
+                                [months[currentMonth - 2], ...expenseCategories.map(category => {
                                     const sumForCategory = monthlyExpenseBadgeChartData[1].find(dataByBadge => dataByBadge.badge === category)?.sumOfExpense;
                                     return sumForCategory ?? 0;
                                 })],
-                                [months[currMonth - 1], ...expenseCategories.map(category => {
+                                [months[currentMonth - 1], ...expenseCategories.map(category => {
                                     const sumForCategory = monthlyExpenseBadgeChartData[2].find(dataByBadge => dataByBadge.badge === category)?.sumOfExpense;
                                     return sumForCategory ?? 0;
                                 })]

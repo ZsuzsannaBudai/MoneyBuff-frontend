@@ -138,13 +138,17 @@ export class APIService {
         });
     }
 
-    public static saveUserSavings(values: any) {
+    public static saveUserSavings(monthlyfix: any, monthlynonfix: any, savedmoney: any) {
         return fetch(`${API_URL}/savings/userSavings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify({
+                monthlyfix,
+                monthlynonfix,
+                savedmoney
+            })
         }).then(response => response.json());
     }
 

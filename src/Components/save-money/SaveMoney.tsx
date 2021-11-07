@@ -2,16 +2,18 @@ import './SaveMoneyCSS.css';
 import React, {Fragment, useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import background from "../main-page/mainPageBackground.jpg";
-import {Button, Container, FloatingLabel, Form, FormControl, Nav, Navbar} from "react-bootstrap";
+import {Button, Container, FloatingLabel, FormControl, Nav, Navbar} from "react-bootstrap";
 import littleLogo from "../main-page/signin_icon.png";
-import {useFormik} from "formik";
 import {APIService} from "../../APIService";
+import Spinner from "react-bootstrap/Spinner";
 
 export const SaveMoney = () => {
 
     useEffect(() => {
-        APIService.getUserSavings().then(setUserSavings);
+        APIService.getUserSavings().then(response => setUserSavings(response[0]));
     }, []);
+
+    let [isLoading, setLoading] = useState(false);
 
     const history = useHistory();
 
@@ -35,22 +37,26 @@ export const SaveMoney = () => {
         history.push("/logout");
     }
 
-    const formik = useFormik({
-        initialValues: {
-            monthlyfix: '50',
-            monthlynonfix: '30',
-            save: '20',
-        },
-        onSubmit: async (values) => APIService.saveUserSavings(values).then(setUserSavings)
-    });
-
     interface userSavingsObject {
         monthlyfix: string,
         monthlynonfix: string,
-        save: string
+        savedmoney: string
     }
 
-    const [userSavings, setUserSavings] = useState([] as userSavingsObject[]);
+    const [userSavings, setUserSavings] = useState({} as userSavingsObject);
+
+    function handleStartSaveMoneyButton() {
+        const isOneHundred = +userSavings.monthlyfix + +userSavings.monthlynonfix + +userSavings.savedmoney;
+        if (isOneHundred === 100) {
+            setLoading(true);
+            APIService.saveUserSavings(userSavings.monthlyfix, userSavings.monthlynonfix, userSavings.savedmoney).then((values) => {
+                setLoading(false);
+                setUserSavings(values);
+            });
+        } else {
+            alert("Error: Not 100% provided!");
+        }
+    }
 
     return (
         <Fragment>
@@ -59,7 +65,7 @@ export const SaveMoney = () => {
                     <Navbar fixed="top" bg="light">
                         <Container>
                             <img className="littleLogo" src={littleLogo} alt=""/>
-                            <Navbar.Brand href="#home">MoneyBuffer</Navbar.Brand>
+                            <Navbar.Brand onClick={handleRouteToHome}>MoneyBuffer</Navbar.Brand>
                             <Nav className="me-auto">
                                 <Nav.Link onClick={handleRouteToHome}>Home</Nav.Link>
                                 <Nav.Link onClick={handleRouteToStatistics}>Statistics</Nav.Link>
@@ -68,16 +74,6 @@ export const SaveMoney = () => {
                                 <div className="separatorLine"/>
                                 <Nav.Link onClick={handleRouteToLogOut}>Log Out</Nav.Link>
                             </Nav>
-                            <Form className="searchForm">
-                                <FloatingLabel controlId="floatingInput" label="Search" className="searchFloatingLabel">
-                                    <FormControl
-                                        type="search"
-                                        placeholder="Search"
-                                        className="searchLabel"
-                                    />
-                                </FloatingLabel>
-                                <Button variant="outline-dark" className="searchButton">Search</Button>
-                            </Form>
                         </Container>
                     </Navbar>
                 </div>
@@ -104,7 +100,7 @@ export const SaveMoney = () => {
                         </div>
                         <div className="formContainer">
                             <div className="saveFormContainer">
-                                <form onSubmit={formik.handleSubmit}>
+                                <form>
                                     <div className="infoContainer">
                                         <div className="labelContainer">
                                             <div className="fixLabel">Monthly fix</div>
@@ -119,39 +115,50 @@ export const SaveMoney = () => {
                                                     name="monthlyfix"
                                                     type="monthlyfix"
                                                     placeholder="Monthly fix"
-                                                    onChange={formik.handleChange}
-                                                    value={userSavings.map(saving => saving.monthlyfix)}
+                                                    onChange={(event) => setUserSavings({
+                                                        ...userSavings,
+                                                        monthlyfix: event.target.value
+                                                    })}
+                                                    value={userSavings.monthlyfix}
                                                 />
                                             </FloatingLabel>
-                                            <FloatingLabel controlId="floatingInput" label="Monthly Non-Fix" className="FloatingLabelsSavenonfix">
+                                            <FloatingLabel controlId="floatingInput" label="Monthly Non-Fix"
+                                                           className="FloatingLabelsSavenonfix">
                                                 <FormControl
                                                     id="monthlynonfix"
                                                     name="monthlynonfix"
                                                     type="monthlynonfix"
                                                     placeholder="Monthly non-fix"
-                                                    onChange={formik.handleChange}
-                                                    value={userSavings.map(saving => saving.monthlynonfix)}
+                                                    onChange={(event) => setUserSavings({
+                                                        ...userSavings,
+                                                        monthlynonfix: event.target.value
+                                                    })}
+                                                    value={userSavings.monthlynonfix}
                                                 />
                                             </FloatingLabel>
-                                            <div className="passwordDivUser">
-                                                <FloatingLabel controlId="floatingInput" label="Save"
-                                                               className="FloatingLabelsSaveSave">
-                                                    <FormControl
-                                                        id="password"
-                                                        name="password"
-                                                        type="password"
-                                                        placeholder="E-mail address"
-                                                        onChange={formik.handleChange}
-                                                        value={userSavings.map(saving => saving.save)}
-                                                    />
-                                                </FloatingLabel>
-                                            </div>
+                                            <FloatingLabel controlId="floatingInput" label="Save"
+                                                           className="FloatingLabelsSaveSave">
+                                                <FormControl
+                                                    id="savedmoney"
+                                                    name="savedmoney"
+                                                    type="savedmoney"
+                                                    placeholder="Saved Money"
+                                                    onChange={(event) => setUserSavings(({
+                                                        ...userSavings,
+                                                        savedmoney: event.target.value
+                                                    }))}
+                                                    value={userSavings.savedmoney}
+                                                />
+                                            </FloatingLabel>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div>
-                                <Button variant="outline-secondary" className="saveSaveButton">Let's Save Money</Button>{' '}
+                                <Button variant="outline-secondary" className="saveSaveButton" onClick={() => {handleStartSaveMoneyButton()}}>
+                                    {!isLoading && "Let's Save Money"}
+                                    {isLoading && <Spinner animation="border" className="spinner"/>}
+                                </Button>{' '}
                             </div>
                         </div>
                     </div>
